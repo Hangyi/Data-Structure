@@ -100,7 +100,7 @@ Status ListInsert(SqList *L,int i, ElemType e) {
         printf("位序不合法");
         return ERROR;
     }
-    if (i<=L->length) //若插入位置不在表尾
+    if (i <= L->length) //若插入位置不在表尾
     {
         for(k=L->length-1;k>=i-1;k--)
             L->data[k+1] = L->data[k];
@@ -130,7 +130,8 @@ Status ListDelete(SqList *L, int i, ElemType *e) //这里要对e操作（删除�
     {
         for (k = i; k < L->length; k++)
         {
-            L->data[k] = L->data[k+1];  //直接覆盖了，无需删除
+            L->data[k-1] = L->data[k];  //直接覆盖了，无需删除
+//            L->data[k] = L->data[k+1];  //❗️这里要注意，这个是删除第i+1个元素
         }
     }
     L->length--;
@@ -143,10 +144,9 @@ Status ListDelete(SqList *L, int i, ElemType *e) //这里要对e操作（删除�
 Status ListTraverse(SqList L)
 {
     int i;
-    for(i=1; i<=L.length; i++)
+    for(i=0; i<L.length; i++)
     {
-        printf("%d", L.data[i]);
-//        visit(L.data[i]);
+        visit(L.data[i]);
     }
     printf("\n");
     return OK;
@@ -213,7 +213,7 @@ int main()
     {
         k=LocateElem(L,j);
         if(k)
-            printf("第%d个元素的值为%d\n",k,j);
+            printf("第%d个元素的值为：%d\n",k,j);
         else
             printf("没有值为%d的元素\n",j);
     }
@@ -239,9 +239,12 @@ int main()
     ListTraverse(L);
 
     //构造一个有10个数的Lb
-    i=InitList(&Lb);
+    i=InitList(&Lb);  //将线性表表长置零
     for(j=6;j<=15;j++)
         i=ListInsert(&Lb,1,j);
+
+    printf("依次输出Lb的元素：");
+    ListTraverse(Lb);
 
     unionL(&L,Lb);
 
