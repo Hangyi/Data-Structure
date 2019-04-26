@@ -143,8 +143,8 @@ Status ListDelete(SqList *L, int i, ElemType *e) //这里要对e操作（删除�
 /* 操作结果：依次对L的每个数据元素输出 */
 Status ListTraverse(SqList L)
 {
-    int i;
-    for(i=0; i<L.length; i++)
+//    int i;  这是c90的规则，变量声明必须要在函数的最前面
+    for(int i=0; i<L.length; i++)
     {
         visit(L.data[i]);
     }
