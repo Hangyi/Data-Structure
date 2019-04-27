@@ -2,6 +2,7 @@
 // Created by Hangyi Zhu on 2019-04-26.
 //
 
+#include "time.h"
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
@@ -173,6 +174,43 @@ Status ListTraverse(LinkList L)
     printf("\n");
     return OK;
 }
+
+/*  随机产生n个元素的值，建立带表头结点的单链线性表L（头插法） */
+void CreateListHead(LinkList *L, int n)
+{
+    LinkList p;
+    int i;
+    srand(time(0));  //初始化随机数种子, 不然每次产生的随机数都一样。rand函数默认调取srand(1)
+    // Time(0)是得到当前时时间值，用秒来表示。用1970.1.1至今的秒数
+    *L = (LinkList)malloc(sizeof(Node)); //生成新节点
+    (*L)->next = NULL;          //让L的头结点的指针指向NULL，即建立一个带头结点的单链表
+    for (i=0; i<n; i++)
+    {
+        p = (LinkList)malloc(sizeof(Node));
+        p->data = rand()%100 + 1;  //随机生成100以内的数字
+        p->next = (*L)->next;
+        (*L)->next = p;            //插入到表头
+    }
+}
+
+/*  随机产生n个元素的值，建立带表头结点的单链线性表L（尾插法） */
+void CreateListTail(LinkList *L, int n)
+{
+    LinkList p, r;
+    int i;
+    srand(time(0));
+    *L = (LinkList)malloc(sizeof(Node));
+    r = *L;
+    for (i=0; i<n; i++)
+    {
+        p = (Node *)malloc(sizeof(Node));
+        p->data = rand()%100+1;
+        r->next = p;
+        r = p;
+    }
+    r->next = NULL;
+}
+
 int main()
 {
     LinkList L;
@@ -240,15 +278,15 @@ int main()
 
     i=ClearList(&L);
     printf("\n清空L后：ListLength(L)=%d\n",ListLength(L));
-//    CreateListHead(&L,20);
-//    printf("整体创建L的元素(头插法)：");
-//    ListTraverse(L);
-//
-//    i=ClearList(&L);
-//    printf("\n删除L后：ListLength(L)=%d\n",ListLength(L));
-//    CreateListTail(&L,20);
-//    printf("整体创建L的元素(尾插法)：");
-//    ListTraverse(L);
+    CreateListHead(&L,20);
+    printf("整体创建L的元素(头插法)：");
+    ListTraverse(L);
+
+    i=ClearList(&L);
+    printf("\n删除L后：ListLength(L)=%d\n",ListLength(L));
+    CreateListTail(&L,20);
+    printf("整体创建L的元素(尾插法)：");
+    ListTraverse(L);
 
 
     return 0;
