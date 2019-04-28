@@ -1,6 +1,7 @@
 //
 // Created by Hangyi Zhu on 2019-04-28.
-//
+// 这里的实现参考的是《数据结构 严蔚敏》。采用双指针的方法。
+
 
 #include "stdio.h"
 #include "stdlib.h"
@@ -9,21 +10,7 @@
 #include "time.h"
 #include "stdbool.h"
 
-#define OK 1
-#define ERROR 0
-#define STACK_INIT_SIZE 100 // 存储空间初始分配量
-#define STACKINCREMENT 10   // 存储空间分配增量
-
-typedef int Status;
-typedef int SElemType; /* SElemType类型根据实际情况而定，这里假设为int */
-
-/* 顺序栈结构 */
-typedef struct
-{
-    SElemType *base;
-    SElemType *top;
-    int stacksize; //用于栈顶指针
-}SqStack;
+#include "01顺序栈_Stack.h"
 
 Status visit(SElemType c)
 {
@@ -131,28 +118,4 @@ Status Pop(SqStack *S, SElemType *e)
 //    S->top--;
 //    *e = *(S->top);
     return OK;
-}
-
-int main()
-{
-    int j;
-    SqStack s;
-    int e;
-    if(InitStack(&s)==OK)
-        for(j=1;j<=10;j++)
-            Push(&s,j);
-    printf("栈中元素逆序依次为：");
-    StackTraverse(s);
-    printf("栈中元素顺序依次为：");
-    StackTraverse2(s);
-    printf("\n");
-    Pop(&s,&e);
-    printf("弹出的栈顶元素 e=%d\n",e);
-    printf("栈空否：%d(1:空 0:否)\n",StackEmpty(s));
-    GetTop(s,&e);
-    printf("栈顶元素 e=%d 栈的长度为%d\n",e,StackLength(s));
-    ClearStack(&s);
-    printf("清空栈后，栈空否：%d(1:空 0:否)\n",StackEmpty(s));
-
-    return 0;
 }
